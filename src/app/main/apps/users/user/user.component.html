@@ -1,0 +1,169 @@
+<div id="forms" class="page-layout simple fullwidth" fxLayout="column">
+
+    <!-- HEADER -->
+    <div class="header accent p-24 h-100" fxLayout="row" fxLayoutAlign="start center">
+        <div fxLayout="column" fxLayoutAlign="center start">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <mat-icon class="secondary-text s-18">home</mat-icon>
+                <span style="cursor: pointer;" class="secondary-text ml-5" [routerLink]="['/dashboard']">Home</span>
+                <mat-icon class="secondary-text s-16">chevron_right</mat-icon>
+                <span style="cursor: pointer;" class="secondary-text" [routerLink]="['/apps/users/userlist']">Manage
+                    User</span>
+                <mat-icon class="secondary-text s-16">chevron_right</mat-icon>
+                <span class="secondary-text" [innerHTML]="pageTitle"></span>
+            </div>
+            <!-- <div class="h1 mt-16" [innerHTML]="pageTitle"></div> -->
+        </div>
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content p-12">
+
+        <div fxLayout="column" fxLayoutAlign="start" fxLayout.gt-md="row">
+
+            <div fxLayout="row wrap" fxLayoutAlign="start start" fxFlex="1 1 auto">
+
+                <div fxFlex="100" fxFlex.gt-sm="50" fxFlex.gt-md="50" class="p-12">
+                    <div class="user-box">
+                        <mat-list class="pt-0">
+                            <mat-list-item class="user-view-list">
+                                <mat-label><b>USER VIEW</b></mat-label>
+                            </mat-list-item>
+
+                            <mat-divider></mat-divider>
+
+                            <mat-list-item class="user-view-list">
+                                <span class="left-pane">First Name</span>
+                                <span class="right-pane" [innerHTML]="userViewData.first_name"></span>
+                            </mat-list-item>
+
+                            <mat-divider class="child-divider"></mat-divider>
+
+                            <mat-list-item class="user-view-list">
+                                <span class="left-pane">Last Name</span>
+                                <span class="right-pane" [innerHTML]="userViewData.last_name"></span>
+                            </mat-list-item>
+
+                            <mat-divider class="child-divider"></mat-divider>
+
+                            <mat-list-item class="user-view-list">
+                                <span class="left-pane">Phone</span>
+                                <span class="right-pane" [innerHTML]="userViewData.phone"></span>
+                            </mat-list-item>
+
+                            <mat-divider class="child-divider"></mat-divider>
+
+                            <mat-list-item class="user-view-list">
+                                <span class="left-pane">Email</span>
+                                <span class="right-pane" [innerHTML]="userViewData.email"></span>
+                            </mat-list-item>
+
+                            <mat-divider class="child-divider"></mat-divider>
+
+                            <mat-list-item class="user-view-list" *ngIf="userViewData.dob">
+                                <span class="left-pane">DOB</span>
+                                <!-- <span class="right-pane" [innerHTML]="userViewData.dob"></span> -->
+                                <span *ngIf="userViewData.dob" class="right-pane"
+                                    [innerHTML]="userViewData.dob | customdate | date: dateFormate"></span>
+                            </mat-list-item>
+
+                            <mat-divider class="child-divider"></mat-divider>
+
+                            <mat-list-item class="user-view-list">
+                                <span class="left-pane">Country</span>
+                                <span class="right-pane" [innerHTML]="countryName"></span>
+                            </mat-list-item>
+
+                            <mat-divider class="child-divider"></mat-divider>
+
+                            <mat-list-item class="user-view-list">
+                                <span class="left-pane">State</span>
+                                <span class="right-pane" [innerHTML]="stateName"></span>
+                            </mat-list-item>
+
+                            <mat-divider class="child-divider"></mat-divider>
+
+                            <mat-list-item class="user-view-list">
+                                <span class="left-pane">City</span>
+                                <span class="right-pane" [innerHTML]="cityName"></span>
+                            </mat-list-item>
+
+                        </mat-list>
+                    </div>
+
+
+                </div>
+
+                <!-- <mat-divider [vertical]="true" style="margin-left: 10px; margin-right: 10px; "></mat-divider> -->
+
+                <div fxFlex="100" fxFlex.gt-sm="50" fxFlex.gt-md="50" class="p-12">
+                    <div class="user-box">
+                        <mat-list class="pt-0">
+
+                            <mat-list-item>
+                                <mat-label><b>REASON TO CONNECT</b></mat-label>
+                            </mat-list-item>
+
+                            <mat-divider></mat-divider>
+
+                            <ng-container *ngFor="let reasons of userViewData.like_connect_for;let index = index">
+                                <mat-list-item class="user-view-list">
+                                    <span class="margin-left-5" [innerHTML]="reasons"></span>
+                                </mat-list-item>
+
+                                <mat-divider *ngIf=" index !== userViewData.like_connect_for.length-1 "
+                                    class="child-divider"></mat-divider>
+                            </ng-container>
+                        </mat-list>
+                    </div>
+                </div>
+
+                <div fxFlex="97" fxFlex="100" fxFlex.gt-xs="100" class="p-12">
+                    <div class="user-box">
+                        <mat-list class="pt-0">
+                            <mat-list-item>
+                                <mat-icon matPrefix class="institute-icon">account_balance</mat-icon>
+                                <mat-label class="institute-label"> USER BATCH </mat-label>
+
+                            </mat-list-item>
+
+                            <mat-divider></mat-divider>
+
+                            <ng-container *ngFor="let institute of userViewData.institutes;let ind = index"
+                                class="institute-container">
+                                <mat-list-item class="hoverClass">
+                                    <span class="left-pane margin-left-5">
+                                        {{ institute.institute_name }} - {{ institute.batch_year }}
+                                    </span>
+                                    <span class="right-pane">
+
+                                        <button class="action" *ngIf=" institute.verify_status === 0 "
+                                            title="Click to approve" matTooltipPosition="above" mat-raised-button
+                                            color="accent" (click)="updateInstituteStatus(ind)">
+                                            Approve
+                                        </button>
+                                        <button class="action" *ngIf=" institute.verify_status === 1 "
+                                            title="Click to disapprove" matTooltipPosition="above" mat-raised-button
+                                            color="primary" (click)="updateInstituteStatus(ind)">
+                                            Disapprove
+                                        </button>
+
+                                    </span>
+
+                                </mat-list-item>
+                                <mat-divider *ngIf=" ind != userViewData.institutes.length-1 " class="child-divider">
+                                </mat-divider>
+                            </ng-container>
+                        </mat-list>
+                    </div>
+                </div>
+            </div>
+            <br />
+
+        </div>
+
+    </div>
+    <!-- / CONTENT -->
+
+</div>

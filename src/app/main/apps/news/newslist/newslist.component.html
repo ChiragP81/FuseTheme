@@ -1,0 +1,90 @@
+<div class="page-layout simple fullwidth angular-material-elements">
+
+    <!-- HEADER -->
+    <div class="header accent p-24 h-100" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-xs="row"
+        fxLayoutAlign.gt-xs="space-between center">
+
+        <div fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-xs="column" fxLayoutAlign.gt-xs="center start">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <mat-icon class="secondary-text s-18">home</mat-icon>
+                <span style="cursor: pointer;" class="secondary-text ml-5" [routerLink]="['/dashboard']">Home</span>
+                <mat-icon class="secondary-text s-16">chevron_right</mat-icon>
+                <span class="secondary-text" [innerHTML]="pageTitle"></span>
+            </div>
+            <!-- <div class="h2 mt-16" [innerHTML]="pageTitle"></div> -->
+        </div>
+
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content p-12">
+        <div fxLayout="column" fxLayoutAlign="start">
+            <div class="p-12 pb-0" fxLayout="column" fxFlex="100">
+                <form name="form">
+                    <mat-form-field fxLayout="column" fxFlex="100">
+                        <mat-label>{{ 'status.status' | translate }}</mat-label>
+                        <mat-select value="all" (selectionChange)="viewByFilter($event.value)">
+                            <mat-option [value]="status.value" *ngFor="let status of statusArray">
+                                {{ status.displayValue }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </form>
+            </div>
+            <div class="p-12 pt-0" fxLayout="column" fxFlex="100">
+                <kendo-grid [kendoGridBinding]="newsGridData" [pageSize]="state.take" [skip]="state.skip"
+                    [sort]="state.sort" [filter]="state.filter" [sortable]="true" [pageable]="true" [filterable]="true"
+                    (dataStateChange)="dataStateChange($event)">
+
+                    <ng-template kendoGridToolbarTemplate>
+                        <button mat-raised-button class="theme-default accent pull-right" (click)="addNews()">Add
+                            News</button>
+                    </ng-template>
+
+                    <kendo-grid-column field="news_uid" title="Action" width="100" [filterable]="false"
+                        [sortable]="false">
+                        <ng-template kendoGridCellTemplate let-dataNews>
+                            <button kendoGridEditCommand [primary]="true"
+                                (click)="editNews(dataNews.news_uid)">Edit</button>
+                        </ng-template>
+                    </kendo-grid-column>
+
+                    <kendo-grid-column field="news_title" title="News Title" width="250">
+
+                    </kendo-grid-column>
+                    <!-- 
+                    <kendo-grid-column field="news_url" title="News URL" width="250">
+                    </kendo-grid-column> -->
+
+                    <kendo-grid-column field="news_type" title="Type" width="200" filter="numeric">
+                        <ng-template kendoGridCellTemplate let-dataNewsType>
+                            <div *ngIf="dataNewsType.news_type == 0 "> General </div>
+                            <div *ngIf="dataNewsType.news_type == 1 "> Private </div>
+                        </ng-template>
+                    </kendo-grid-column>
+
+                    <!-- <kendo-grid-column field="created_at" title="Created Date" width="250" filter="date" format="MM/d/yyyy">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                            <div>{{ dataItem.created_at.seconds*1000 | date:'MM/d/yyyy' }}</div>
+                        </ng-template>
+                    </kendo-grid-column> -->
+
+                    <!-- <kendo-grid-column field="updated_at" title="Updated Date" width="250" filter="date" format="MM/d/yyyy">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                            <div>{{ dataItem.updated_at.seconds*1000 | date:'MM/d/yyyy' }}</div>
+                        </ng-template>
+                    </kendo-grid-column> -->
+
+                    <kendo-grid-column field="status" title="Status" width="150" [filterable]="false">
+                        <ng-template kendoGridCellTemplate let-dataStatus>
+                            <div *ngIf="dataStatus.status == 0 "> Inactive </div>
+                            <div *ngIf="dataStatus.status == 1 "> Active </div>
+                        </ng-template>
+                    </kendo-grid-column>
+
+                </kendo-grid>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,35 @@
+.user-box{
+    border: 1px solid #dad5d5;
+    .left-pane{
+        float: left;width: 50%;text-align: left ; margin-left: 5px; 
+    }
+    .right-pane{
+        float: right;width: 50%;text-align: right ;margin-right: 5px;
+    }
+
+    .margin-left-5{
+        margin-left: 5px; 
+        text-align: left ;
+    }
+    .user-view-list{
+        height: 50px;
+    }
+    .institute-container{
+        margin-top:20px;
+    }    
+    .institute-label{
+        color: #2ab4c0!important;
+        font-weight: bold;
+    }
+    .institute-icon{
+        font-weight: bold !important;
+        color: #6f6b6b;
+        font-size: 20px !important;
+    }
+}
+.action{
+    padding: 3px 3px 2px 0;
+}
+.hoverClass.mat-list-item-content :hover{
+    background-color: aliceblue;
+}

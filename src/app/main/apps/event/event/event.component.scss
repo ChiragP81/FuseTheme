@@ -1,0 +1,41 @@
+.user-box {
+    border: 1px solid #dad5d5;
+
+    .child-divider {
+        width: calc(100% - 30px);
+        margin: auto;
+    }
+
+    .institute-label {
+        color: #2ab4c0 !important;
+        font-weight: bold;
+    }
+
+    .institute-icon {
+        font-weight: bold !important;
+        color: #6f6b6b;
+        font-size: 20px !important;
+    }
+
+    .left-pane {
+        width: 50%;
+    }
+
+    .right-pane {
+        margin-left: 10px;
+        width: 100%;
+        text-align: right;
+        word-break: break-all;
+    }
+}
+
+.mat-list-item {
+    height: auto;
+    min-height: 45px;
+    padding: 12px 0;
+}
+
+.thumb-img {
+    max-width: 100%;
+    max-height: 115px;
+}

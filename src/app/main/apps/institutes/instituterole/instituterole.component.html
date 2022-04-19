@@ -1,0 +1,90 @@
+<div class="page-layout simple fullwidth angular-material-elements">
+
+    <!-- HEADER -->
+    <div class="header accent p-24 h-100" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-xs="row"
+        fxLayoutAlign.gt-xs="space-between center">
+
+        <div fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-xs="column" fxLayoutAlign.gt-xs="center start">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <mat-icon class="secondary-text s-18">home</mat-icon>
+                <span style="cursor: pointer;" class="secondary-text ml-5" [routerLink]="['/dashboard']">Home</span>
+                <mat-icon class="secondary-text s-16">chevron_right</mat-icon>
+                <span style="cursor: pointer;" class="secondary-text"
+                    [routerLink]="['/apps/institutes/institutelist']">Manage Institute</span>
+                <mat-icon class="secondary-text s-16">chevron_right</mat-icon>
+                <span class="secondary-text" [innerHTML]="pageTitle">Manage Role</span>
+            </div>
+            <!-- <div class="h2 mt-16" [innerHTML]="pageTitle"></div> -->
+        </div>
+
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content p-12">
+
+        <div fxLayout="column" fxLayoutAlign="start" fxLayout.gt-md="row">
+
+            <div fxLayout="row wrap" fxLayoutAlign="start center" fxFlex="1 1 auto">
+                <mat-label class="institute-label p-12 pb-0" fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-xs="100">
+                    {{ instituteRoleData != undefined ? instituteRoleData.institute_name : '' }}
+                </mat-label>
+                <div fxLayout="row wrap" fxLayoutAlign=" stretch">
+                    <div class="p-12" fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-sm="33.33" fxFlex.gt-md="25" fxFlex.gt-lg="20" *ngFor="let roles of roleArray; let index = index;">
+                        <form fxFlex="1 1 auto" class="role-assign-box">
+                            <mat-list class="pt-0" fxLayout="column" fxFlex="1 1 auto" fxLayoutAlign="space-between none">
+                                <mat-list-item class="text-center">
+                                    {{ roles.user_view_value }}
+                                    <mat-divider></mat-divider>
+                                </mat-list-item>
+                                <div fxLayoutAlign="center center" class="assign-inner p-12">
+                                    <div class="left-assign">
+                                        <img [src]="badgeUrl">
+                                    </div>
+                                    <div class="right-assign ml-12">
+                                        <p class="text-ellipsis m-0" *ngIf=" roles.user_type_value != '' "> Assigned </p>
+                                        <p class="text-ellipsis m-0" *ngIf=" roles.user_type_value == '' "> No User Assigned </p>
+                                    </div>
+                                </div>
+                                <div class="change-assign p-12 text-center">
+    
+                                    <div *ngIf="roles.displayChange == 0" class="" fxFlex="100" fxFlex.gt-md="100"
+                                        fxFlex.gt-xs="100">
+                                        <button mat-raised-button (click)="changeView(roles)">Change</button>
+                                    </div>
+    
+                                    <div *ngIf="roles.displayChange == 1" class="" fxLayout="row wrap"
+                                        fxLayoutAlign="start center" fxFlex="1 1 auto">
+                                        <mat-form-field class=" " fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-xs="100">
+                                            <mat-select placeholder="Select User" #selection name="user"
+                                                [(ngModel)]="roles.user_type_value">
+                                                <mat-option *ngFor="let user of institute_users" [value]="user.user_uid">
+                                                    {{user.first_name}} {{user.last_name}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                        <br />
+                                        <div class="" fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-xs="100">
+                                            <button mat-raised-button color="primary" (click)="assignUser(selection,roles)">
+                                                Assign</button>
+                                            &nbsp;
+                                            <button mat-raised-button (click)="roles.displayChange = 0;">Cancel</button>
+                                        </div>
+                                    </div>
+    
+                                </div>
+    
+                            </mat-list>
+                        </form>
+                    </div>
+                </div>
+                
+
+            </div>
+
+        </div>
+
+    </div>
+    <!-- / CONTENT -->
+
+</div>

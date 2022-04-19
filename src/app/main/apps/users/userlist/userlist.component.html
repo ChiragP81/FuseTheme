@@ -1,0 +1,89 @@
+<div class="page-layout simple fullwidth angular-material-elements">
+
+    <!-- HEADER -->
+    <div class="header accent p-24 h-100" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-xs="row"
+        fxLayoutAlign.gt-xs="space-between center">
+
+        <div fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-xs="column" fxLayoutAlign.gt-xs="center start">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <mat-icon class="secondary-text s-18">home</mat-icon>
+                <span style="cursor: pointer;" class="secondary-text ml-5" [routerLink]="['/dashboard']">Home</span>
+                <mat-icon class="secondary-text s-16">chevron_right</mat-icon>
+                <span class="secondary-text" [innerHTML]="pageTitle"></span>
+            </div>
+            <!-- <div class="h2 mt-16" [innerHTML]="pageTitle"></div> -->
+        </div>
+
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content p-12">
+        <div fxLayout="column" fxLayoutAlign="start">
+            <div class="p-12 pb-0" fxLayout="column" fxFlex="100">
+                <form name="form">
+                    <mat-form-field fxLayout="column" fxFlex="100">
+                        <mat-label>User Verification</mat-label>
+                        <mat-select value="all" (selectionChange)="viewByFilter($event.value)">
+                            <mat-option [value]="status.value" *ngFor="let status of approve_status">
+                                {{ status.displayValue }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </form>
+            </div>
+            <div class="p-12" fxLayout="column" fxFlex="100">
+                <kendo-grid [kendoGridBinding]="userInfo" [pageSize]="state.take" [skip]="state.skip"
+                    [sort]="state.sort" [filter]="state.filter" [sortable]="true" [pageable]="true" [filterable]="true"
+                    (edit)="editHandler($event.dataItem.user_uid)">
+
+                    <kendo-grid-column field="Action" title="Action" width="100" [filterable]="false"
+                        [sortable]="false">
+                        <ng-template kendoGridCellTemplate let-isNew="isNew">
+                            <button kendoGridEditCommand [primary]="true">View</button>
+                        </ng-template>
+                    </kendo-grid-column>
+
+                    <kendo-grid-column field="first_name" title="First Name" width="200">
+                    </kendo-grid-column>
+
+                    <kendo-grid-column field="last_name" title="Last Name" width="200">
+                    </kendo-grid-column>
+
+                    <kendo-grid-column field="phone" title="Phone" width="230">
+                    </kendo-grid-column>
+
+                    <kendo-grid-column field="email" title="Email" width="200">
+                    </kendo-grid-column>
+
+                    <!-- <kendo-grid-column field="is_verified" width="120">
+                        <ng-template kendoGridFilterCellTemplate>
+                            <kendo-switch (valueChange)="switchChange($event)" offLabel="No" [checked]="checked"
+                                onLabel="Yes">
+                            </kendo-switch>
+                        </ng-template>
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                            <input type="checkbox" [checked]="dataItem.is_verified" disabled />
+                        </ng-template>
+                    </kendo-grid-column> -->
+
+                    <!-- <kendo-grid-column field="dob" title="DOB" width="150" [filterable]="false">
+                    </kendo-grid-column> -->
+                    <!-- <ng-template kendoGridCellTemplate let-dataStatus>
+                            <p *ngIf="dataStatus.status != undefined ">
+                                {{ getStatusName(dataStatus.status) }}
+                            </p>
+                        </ng-template> -->
+
+                    <kendo-grid-column field="DOB" title="DOB" width="250" [filterable]="false" formate="dateFormate">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                            <!-- <div>{{ dataItem.dob | date: dateFormate }}</div> -->
+                            <div *ngIf="dataItem.dob">{{ dataItem.dob | customdate | date: dateFormate  }}</div>
+                        </ng-template>
+                    </kendo-grid-column>
+
+                </kendo-grid>
+            </div>
+        </div>
+    </div>
+</div>

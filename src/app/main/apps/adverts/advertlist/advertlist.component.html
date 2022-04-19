@@ -1,0 +1,74 @@
+<div id="forms" class="page-layout simple fullwidth" fxLayout="column">
+
+    <!-- HEADER -->
+    <div class="header accent p-24 h-100" fxLayout="row" fxLayoutAlign="start center">
+        <div fxLayout="column" fxLayoutAlign="center start">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <mat-icon class="secondary-text s-18">home</mat-icon>
+                <span style="cursor: pointer;" class="secondary-text ml-5" [routerLink]="['/dashboard']">Home</span>
+                <mat-icon class="secondary-text s-16">chevron_right</mat-icon>
+                <span class="secondary-text" [innerHTML]="pageTitle"></span>
+            </div>
+            <!-- <div class="h1 mt-16">{{pageTitle}}</div> -->
+        </div>
+    </div>
+
+    <!-- / HEADER -->
+    <div class="content p-12">
+        <div fxLayout="column" fxLayoutAlign="start">
+            <div class="p-12 pb-0" fxLayout="column" fxFlex="100">
+                <form name="form">
+                    <mat-form-field fxLayout="column" fxFlex="100">
+                        <mat-label>{{ 'status.status' | translate }}</mat-label>
+                        <mat-select value="all" (selectionChange)="viewByFilter($event.value)">
+                            <mat-option [value]="status.value" *ngFor="let status of status">
+                                {{ status.displayValue }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </form>
+            </div>
+            <div class="p-12 pt-0" fxLayout="column" fxFlex="100">
+                <kendo-grid [data]="adverts" [pageSize]="8" [skip]="state.skip" [sort]="state.sort"
+                    [filter]="state.filter" [sortable]="true" [pageable]="true" [filterable]="true"
+                    (dataStateChange)="dataStateChange($event)" [kendoGridBinding]="adverts">
+                    <ng-template kendoGridToolbarTemplate>
+                        <button mat-raised-button class="theme-default accent pull-right"
+                            [routerLink]="['/apps/adverts/advert']">
+                            Create Affiliate Advert
+                        </button>
+                    </ng-template>
+                    <ng-template kendoGridToolbarTemplate>
+                        <a class="k-primary kendoeditbtn pull-right" [routerLink]="['/apps/adverts/advert']"></a>
+                    </ng-template>
+                    <kendo-grid-column title="Action" width="150">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                            <td><button kendoGridEditCommand [primary]="true"
+                                    [routerLink]="['/apps/adverts/advert/'+dataItem.banner_uid]">Edit</button></td>
+                            <!-- <td><button kendoGridRemoveCommand class="k-primary">Delete</button></td> -->
+                        </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-column field="banner_title" title="Title" width="250">
+                    </kendo-grid-column>
+                    <kendo-grid-column field="banner_link" title="Banner URL" width="250">
+                    </kendo-grid-column>
+                    <kendo-grid-column field="banner_order" title="Priority Order" width="240" filter="numeric">
+                    </kendo-grid-column>
+
+                    <kendo-grid-column field="banner_status" title="Status" width="220" [filterable]="false"
+                        filter="numeric">
+
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                            <td *ngIf="dataItem.banner_status == 0">Inactive</td>
+                            <td *ngIf="dataItem.banner_status == 1">Active</td>
+                            <td *ngIf="dataItem.banner_status == 2">Block</td>
+                            <td *ngIf="dataItem.banner_status == 3">Deleted</td>
+                            <td *ngIf="dataItem.banner_status == 4">Draft</td>
+
+                        </ng-template>
+                    </kendo-grid-column>
+
+                </kendo-grid>
+            </div>
+        </div>
+    </div>

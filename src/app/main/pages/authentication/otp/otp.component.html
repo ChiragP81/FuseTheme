@@ -1,0 +1,41 @@
+<div id="login" fxLayout="column">
+
+    <div  fxLayout="column" fxLayoutAlign="center center">
+
+        <div id="login-form">
+
+            <div class="logo">
+                <!-- <img src="assets/images/logos/fuse.svg"> -->
+            </div>
+
+            <div class="title">PLEASE PROVIDE OTP</div>
+
+            <form (ngSubmit)="onSubmit()" name="otpForm" [formGroup]="otpForm" novalidate>
+
+                <mat-form-field appearance='outline'>
+                    <mat-label>OTP</mat-label>
+                    <input matInput formControlName='verificationCode'>
+                    <mat-icon matSuffix class='secondary-text'>code</mat-icon>
+                    <mat-error *ngIf="otpForm.get('verificationCode').hasError('required')">
+                        OTP is required
+                    </mat-error>
+                    <mat-error *ngIf="!otpForm.get('verificationCode').hasError('required') &&
+                                otpForm.get('verificationCode').hasError('verificationCode')">
+                        Please enter a valid OTP
+                    </mat-error>
+                </mat-form-field>
+
+                <div id="recaptcha-container"></div>
+
+                <button mat-raised-button color="accent" class="submit-button" aria-label="LOG IN" [disabled]="otpForm.invalid">
+                    SUBMIT
+                </button>
+
+            </form>
+
+
+        </div>
+
+    </div>
+
+</div>

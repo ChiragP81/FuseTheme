@@ -1,0 +1,12 @@
+<div class="wq-popup">
+    <form action="">
+        <div class="popup-contain">
+        <label><b>Reason</b></label><br><br>
+         <textarea rows="4" cols="60" #reasonValue required>{{reason}}</textarea>
+        </div><br>
+        <div class="action-btn">
+            <button mat-dialog-close class="cancel"   mat-raised-button color="accent" mat-button (click)="onConfirmation(reasonValue.value)">submit</button>
+        </div>
+    </form>
+  </div>
+

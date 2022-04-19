@@ -1,0 +1,155 @@
+<div id="forms" class="page-layout simple fullwidth" fxLayout="column">
+
+  <!-- HEADER -->
+  <div class="header accent p-24 h-100" fxLayout="row" fxLayoutAlign="start center">
+      <div fxLayout="column" fxLayoutAlign="center start">
+          <div fxLayout="row" fxLayoutAlign="start center">
+              <mat-icon class="secondary-text s-18">home</mat-icon>
+              <span style="cursor: pointer;" class="secondary-text ml-5" [routerLink]="['/dashboard']">Home</span>
+              <mat-icon class="secondary-text s-16">chevron_right</mat-icon>
+              <span style="cursor: pointer;" class="secondary-text" [routerLink]="['/apps/txclusive/list']">Manage
+                  Txclusive</span>
+              <mat-icon class="secondary-text s-16">chevron_right</mat-icon>
+              <span class="secondary-text" [innerHTML]="pageTitle"></span>
+          </div>
+          <!-- <div class="h1 mt-16" [innerHTML]="pageTitle"></div> -->
+      </div>
+  </div>
+  <!-- / HEADER -->
+
+  <!-- CONTENT -->
+  <div class="content p-24" *ngIf="txclusiveViewData">
+
+      <div class="mb-24" fxLayout="column" fxLayoutAlign="start" fxLayout.gt-md="row">
+
+          <div fxLayout="row wrap" fxLayoutAlign="start end" fxFlex="1 0 auto">
+
+              <div fxFlex="48" fxFlex.gt-md="50" fxFlex.gt-xs="50" class="user-box">
+                  <mat-list>
+                      <mat-list-item class="user-view-list">
+                          <mat-label><b>Txclusive View</b></mat-label>
+                      </mat-list-item>
+
+                      <mat-divider></mat-divider>
+
+                      <mat-list-item class="user-view-list">
+                          <span class="left-pane">Txclusive Name</span>
+                          <span class="right-pane" [innerHTML]="txclusiveViewData.txclusive_title"></span>
+                      </mat-list-item>
+
+                      <mat-divider></mat-divider>
+
+                      <mat-divider class="child-divider"></mat-divider>
+
+                      <mat-list-item class="user-view-list">
+                          <span class="left-pane">Txclusive Type</span>
+                          <span class="right-pane"></span>
+                          <div *ngIf="txclusiveViewData.txclusive_type">
+                              <ng-container class="right-pane">
+                                  {{ getTxclusiveTypeName(txclusiveViewData.txclusive_type) }}
+                              </ng-container>
+                          </div>
+                      </mat-list-item>
+
+                      <mat-divider class="child-divider"></mat-divider>
+
+                      <mat-list-item class="user-view-list">
+                          <span class="left-pane">Txclusive Level</span>
+                          <span class="right-pane"></span>
+                          <ng-container class="right-pane" *ngIf="txclusiveViewData.txclusive_level != undefined ">
+                              {{ getTxclusiveLevelName(txclusiveViewData.txclusive_level) }}
+                          </ng-container>
+                      </mat-list-item>
+
+                      <mat-divider class="child-divider"></mat-divider>
+
+                      <mat-list-item class="user-view-list" *ngIf="txclusiveViewData.end_date">
+                        <span class="left-pane">End Date</span>
+                        <span class="right-pane"></span>
+                        <ng-container>{{ txclusiveViewData.end_date.seconds*1000 | date: dateFormate }}
+                        </ng-container>
+                    </mat-list-item>
+
+                    <mat-divider class="child-divider"></mat-divider>
+
+                    <mat-list-item class="user-view-list" *ngIf="txclusiveViewData.start_date">
+                      <span class="left-pane">Start Date</span>
+                      <span class="right-pane"></span>
+                      <ng-container>{{ txclusiveViewData.start_date.seconds*1000 | date: dateFormate }}
+                      </ng-container>
+                  </mat-list-item>
+
+
+                  </mat-list>
+
+
+              </div>
+          </div>
+
+      </div>
+      <div class="mb-24" fxLayout="column" fxLayoutAlign="start" fxLayout.gt-md="row">
+
+          <div fxLayout="row wrap" fxLayoutAlign="start end" fxFlex="1 0 auto">
+
+              <div fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-xs="100" class="user-box">
+
+                  <mat-list>
+                      <mat-list-item class="user-view-list">
+                          <span class="left-pane"><b>Media</b></span>
+                          <img  class="right-pane" *ngIf="txclusiveViewData.txclusive_media" [src]="txclusiveViewData.txclusive_media"
+                              style="width:50px;height:50px;float: right;">
+                      </mat-list-item>
+
+                      <mat-divider></mat-divider>
+                  </mat-list>
+
+                  <mat-divider class="child-divider"></mat-divider>
+
+                  <mat-list>
+                      <mat-list-item class="user-view-list">
+                          <span class="left-pane"><b>Txclusive Description</b></span>
+                          <span class="right-pane" [innerHTML]="txclusiveViewData.txclusive_description"></span>
+                      </mat-list-item>
+
+                      <mat-divider></mat-divider>
+                  </mat-list>
+
+              </div>
+
+          </div>
+
+      </div>
+
+      <div class="mb-24" fxLayout="column" fxLayoutAlign="start" fxLayout.gt-md="row">
+
+          <div fxLayout="row wrap" fxLayoutAlign="start end" fxFlex="1 0 auto">
+              <mat-list-item style="margin: 10px;" class="hoverClass">
+                  <span class="right-pane">
+                      <ng-container>
+                          <button class="action" style="padding: 10px" [disabled]="txclusiveViewData.status == 1"
+                              title="Click to approve" matTooltipPosition="above" (click)="openDialog()"
+                              mat-raised-button color="accent">
+                              Approve
+                          </button>&nbsp;&nbsp;
+                          <button class="action" style="padding: 10px" (click)="openDialog()"
+                              [disabled]="txclusiveViewData.status == 0" title="Click to disapprove"
+                              matTooltipPosition="above" mat-raised-button color="primary">
+                              Disapprove
+                          </button>
+                      </ng-container>
+                  </span>
+
+              </mat-list-item>
+              <mat-divider class="child-divider">
+              </mat-divider>
+          </div>
+
+      </div>
+
+
+  </div>
+  <!-- / CONTENT -->
+
+  <!-- / CONTENT -->
+
+</div>

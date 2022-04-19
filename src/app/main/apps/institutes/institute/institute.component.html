@@ -1,0 +1,215 @@
+<div id="forms" class="page-layout simple fullwidth" fxLayout="column">
+
+    <!-- HEADER -->
+    <div class="header accent p-24 h-100" fxLayout="row" fxLayoutAlign="start center">
+        <div fxLayout="column" fxLayoutAlign="center start">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <mat-icon class="secondary-text s-18">home</mat-icon>
+                <span style="cursor: pointer;" class="secondary-text ml-4" [routerLink]="['/dashboard']">Home</span>
+                <mat-icon class="secondary-text s-16">chevron_right</mat-icon>
+                <span style="cursor: pointer;" class="secondary-text"
+                    [routerLink]="['/apps/institutes/institutelist']">Manage Institute</span>
+                <mat-icon class="secondary-text s-16">chevron_right</mat-icon>
+                <span class="secondary-text" [innerHTML]="pageTitle"></span>
+                <!-- <mat-icon class="secondary-text s-16" *ngIf="instituteRoleData != undefined">chevron_right</mat-icon>
+                <span class="secondary-text" *ngIf="instituteRoleData != undefined">{{ instituteRoleData != undefined ?
+                    instituteRoleData.institute_name : '' }}</span> -->
+            </div>
+            <!-- <div class="h1 mt-16" [innerHTML]="pageTitle"></div> -->
+        </div>
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content px-12 py-24">
+
+        <div fxLayout="column" fxLayoutAlign="start" fxLayout.gt-md="row">
+
+            <form (ngSubmit)="submitInstituteForm()" [formGroup]="instituteForm" fxLayout="column" fxLayoutAlign="start"
+                fxFlex="1 1 auto">
+
+                <div fxLayout="row wrap" fxLayoutAlign="start center" fxFlex="1 1 auto">
+
+                    <mat-form-field class="px-12"  appearance="outline" fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-sm="33.33" fxFlex.gt-md="33.33">
+                        <mat-label>Institute Jesuit Name</mat-label>
+                        <input matInput formControlName="institute_name" required />
+                        <mat-error *ngIf="instituteForm.get('institute_name').hasError('required')">
+                            Institute Jesuit Name is required
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="px-12"  appearance="outline" fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-sm="33.33" fxFlex.gt-md="33.33">
+                        <mat-label>Institute Alumni Association Name </mat-label>
+                        <input matInput formControlName="institute_alumni_name" required />
+                        <mat-error *ngIf="instituteForm.get('institute_alumni_name').hasError('required')">
+                            Institute Alumni Association Name is required
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="px-12"  appearance="outline" fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-sm="33.33" fxFlex.gt-md="33.33">
+                        <mat-label>Recipient Name (Institute Short Name) </mat-label>
+                        <input matInput formControlName="institute_short_name" required />
+                        <mat-error *ngIf="instituteForm.get('institute_short_name').hasError('required')">
+                            Recipient Name (Institute Short Name) is required
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="px-12"  appearance="outline" fxFlex="100"  fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-sm="33.33" fxFlex.gt-md="33.33">
+                        <mat-label>Institute Address (Thoroughfare , Premise)</mat-label>
+                        <input matInput formControlName="contact_address" required />
+                        <mat-error *ngIf="instituteForm.get('contact_address').hasError('required')">
+                            Institute Address (Thoroughfare , Premise) is required
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="px-12"  appearance="outline" fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-sm="33.33" fxFlex.gt-md="33.33">
+                        <mat-label>Institute City </mat-label>
+                        <input matInput formControlName="institute_city" required />
+                        <mat-error *ngIf="instituteForm.get('institute_city').hasError('required')">
+                            Institute City is required
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="px-12"  appearance="outline" fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-sm="33.33" fxFlex.gt-md="33.33">
+                        <mat-label>Institute Province </mat-label>
+                        <input matInput formControlName="institute_province" required />
+                        <mat-error *ngIf="instituteForm.get('institute_province').hasError('required')">
+                            Institute Province is required
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="px-12"  appearance="outline" fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-sm="33.33" fxFlex.gt-md="33.33">
+                        <mat-label>Institute PostCode </mat-label>
+                        <input matInput type="number" formControlName="institute_postcode" required />
+                        <mat-error *ngIf="instituteForm.get('institute_postcode').hasError('required')">
+                            Institute PostCode is required
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="px-12"  appearance="outline" fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-sm="33.33" fxFlex.gt-md="33.33">
+                        <mat-label>Institute Nation </mat-label>
+                        <input matInput formControlName="institute_nation" required />
+                        <mat-error *ngIf="instituteForm.get('institute_nation').hasError('required')">
+                            Institute Nation is required
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="px-12"  appearance="outline" fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-sm="33.33" fxFlex.gt-md="33.33">
+                        <mat-label>Jesuit Province</mat-label>
+                        <input matInput formControlName="institute_jesuit_province" required />
+                        <mat-error *ngIf="instituteForm.get('institute_jesuit_province').hasError('required')">
+                            Jesuit Province is required
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="px-12"  appearance="outline" fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-sm="33.33" fxFlex.gt-md="33.33">
+                        <mat-label>Institute Zone</mat-label>
+                        <input matInput formControlName="institute_zone" required />
+                        <mat-error *ngIf="instituteForm.get('institute_zone').hasError('required')">
+                            Institute Zone is required
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="px-12"  appearance="outline"  fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-sm="33.33" fxFlex.gt-md="33.33">
+                        <mat-label>Institute Contact Name </mat-label>
+                        <input matInput formControlName="contact_name" required />
+                        <mat-error *ngIf="instituteForm.get('contact_name').hasError('required')">
+                            Institute Contact Name is required
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="px-12"  appearance="outline"  fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-sm="33.33" fxFlex.gt-md="33.33">
+                        <mat-label>Institute Contact Phone</mat-label>
+                        <input matInput formControlName="contact_phone" required (change)="validatePhnNum($event)"
+                            (keypress)="validatePhnNum($event)" />
+                        <mat-error *ngIf="instituteForm.get('contact_phone').hasError('required')">
+                            Institute Contact Phone is required
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="px-12"  appearance="outline"  fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-sm="33.33" fxFlex.gt-md="33.33">
+                        <mat-label>Institute Contact Email</mat-label>
+                        <input matInput formControlName="contact_email" required />
+                        <mat-error *ngIf="instituteForm.get('contact_email').hasError('required')">
+                            Institute Contact Email is required
+                        </mat-error>
+                        <mat-error *ngIf="instituteForm.get('contact_email').hasError('email')">
+                            Please Enter Proper Email
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="px-12"  appearance="outline"  fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-sm="33.33" fxFlex.gt-md="33.33">
+                        <mat-label>Institute Web URL</mat-label>
+                        <input matInput formControlName="institute_web_url" required />
+                        <mat-error *ngIf="instituteForm.get('institute_web_url').hasError('required')">
+                            Institute Web URL is required
+                        </mat-error>
+                        <mat-error *ngIf="instituteForm.get('institute_web_url').hasError('pattern')">
+                            {{urlPatternError}}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="px-12"  appearance="outline" fxFlex="100"  fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-sm="33.33" fxFlex.gt-md="33.33">
+                        <mat-label>Institute Motto</mat-label>
+                        <input matInput formControlName="institute_motto" required />
+                        <mat-error *ngIf="instituteForm.get('institute_motto').hasError('required')">
+                            Institute Motto is required
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="px-12"  appearance="outline" fxFlex="100"  fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-sm="33.33" fxFlex.gt-md="33.33">
+                        <mat-label>Institute Description</mat-label>
+                        <input matInput formControlName="institute_description" required />
+                        <mat-error *ngIf="instituteForm.get('institute_description').hasError('required')">
+                            Institute Description is required
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="px-12"  *ngIf="!instituteData" appearance="outline"  fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-sm="33.33" fxFlex.gt-md="33.33">
+                        <mat-label>Status</mat-label>
+                        <mat-select formControlName="status" required>
+                            <mat-option *ngFor="let status of status" [value]="status.value">
+                                {{status.displayValue}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="instituteForm.get('status').hasError('required')">
+                            Status is required
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="px-12 file-form-field"  appearance="outline"  fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-sm="33.33" fxFlex.gt-md="33.33">
+                        <mat-label>Institute Image</mat-label>
+                        <input matInput hidden formControlName="institute_image" required>
+                        <input class="ng-hide" type="file" (change)="uploadImage($event.target.files)"
+                            [accept]="imageAcceptTypes"
+                            [class.imageInput]="instituteForm.get('institute_image').hasError('required')" required />
+                        <mat-error *ngIf="instituteForm.get('institute_image').hasError('required')">
+                            Please select Institute Image !
+                        </mat-error>
+                    </mat-form-field>
+
+                </div>
+
+                <div fxLayout="row wrap" fxLayoutAlign="start center" fxFlex="1 0 auto">
+                    <div class="px-12 mb-20" fxFlex="100" *ngIf="instituteData">
+                        <img class="avatar-img" [src]="instituteData.institute_image">
+                    </div>
+                </div>
+
+                <div fxLayout="row wrap" fxLayoutAlign="start center" fxFlex="1 0 auto">
+                    <div class="px-12" fxFlex="100">
+                        <button type="submit" mat-raised-button color="primary"
+                            [disabled]="!instituteForm.valid">Submit</button>
+                        &nbsp;&nbsp;
+                        <button mat-raised-button (click)="cancelForm()">Cancel</button>
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+    <!-- / CONTENT -->
+
+</div>

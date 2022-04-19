@@ -1,0 +1,113 @@
+<div id="forms" class="page-layout simple fullwidth" fxLayout="column">
+
+    <!-- HEADER -->
+    <div class="header accent p-24 h-100" fxLayout="row" fxLayoutAlign="start center">
+        <div fxLayout="column" fxLayoutAlign="center start">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <mat-icon class="secondary-text s-18">home</mat-icon>
+                <span style="cursor: pointer;" class="secondary-text ml-4" [routerLink]="['/dashboard']">Home</span>
+                <mat-icon class="secondary-text s-16">chevron_right</mat-icon>
+                <span style="cursor: pointer;" class="secondary-text" [routerLink]="['/apps/admins/adminlist']">Manage
+                    Admin</span>
+                <mat-icon class="secondary-text s-16">chevron_right</mat-icon>
+                <span class="secondary-text" [innerHTML]="pageTitle">Edit Admin</span>
+            </div>
+            <!-- <div class="h1 mt-16" [innerHTML]="pageTitle"></div> -->
+        </div>
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content px-12 py-24">
+
+        <div fxLayout="column" fxLayoutAlign="start" fxLayout.gt-md="row">
+
+            <form (ngSubmit)="submitEditForm()" [formGroup]="editAdminForm" fxLayout="column" fxLayoutAlign="start" fxFlex="1 1 auto">
+                <div fxLayout="row wrap" fxLayoutAlign="start center" fxFlex="1 1 auto">
+                    <mat-form-field class="px-12" appearance="outline" fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-sm="33.33" fxFlex.gt-md="33.33">
+                        <mat-label>First Name</mat-label>
+                        <input matInput formControlName="first_name" required />
+                        <mat-error *ngIf="editAdminForm.get('first_name').hasError('required')">
+                            First Name is required
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="px-12" appearance="outline" fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-sm="33.33" fxFlex.gt-md="33.33">
+                        <mat-label>Last Name </mat-label>
+                        <input matInput formControlName="last_name" required />
+                        <mat-error *ngIf="editAdminForm.get('last_name').hasError('required')">
+                            Last Name is required
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="px-12" appearance="outline" fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-sm="33.33" fxFlex.gt-md="33.33">
+                        <mat-label>Email Address </mat-label>
+                        <input matInput formControlName="email" required />
+                        <mat-error *ngIf="editAdminForm.get('email').hasError('required')">
+                            Email is required
+                        </mat-error>
+                        <mat-error *ngIf="editAdminForm.get('email').hasError('email')">
+                            Please enter proper email address.
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="px-12" appearance="outline" fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-sm="33.33" fxFlex.gt-md="33.33">
+                        <mat-label>Phone Number</mat-label>
+                        <input matInput formControlName="phone" minlength="13" maxlength="13"
+                            (keypress)="validatePhnNum($event)" required />
+                        <mat-error *ngIf="editAdminForm.get('phone').hasError('required')">
+                            Phone Number is required
+                        </mat-error>
+                        <mat-error *ngIf="editAdminForm.get('phone').hasError('minlength')">
+                            Please enter proper phone number.
+                        </mat-error>
+                        <mat-error *ngIf="editAdminForm.get('phone').hasError('maxlength')">
+                            Please enter proper phone number.
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="px-12" appearance="outline" fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-sm="33.33" fxFlex.gt-md="33.33">
+                        <mat-label>Select Status</mat-label>
+                        <mat-select formControlName="status" required>
+                            <mat-option *ngFor="let status of statusData" [value]="status.value">
+                                {{status.displayValue}}
+                            </mat-option>
+                        </mat-select>
+                        <!-- <mat-error *ngIf="editAdminForm.get('status').hasError('required')"> -->
+                        <!-- Status is required
+                                </mat-error> -->
+                    </mat-form-field>
+
+                    <mat-form-field class="px-12 file-form-field" appearance="outline" fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-sm="33.33" fxFlex.gt-md="33.33">
+                        <mat-label>Avatar</mat-label>
+                        <input matInput hidden>
+                        <input class="ng-hide" type="file" formControlName="user_image"
+                            (change)="uploadAvatar($event.target.files)" [accept]="imageAcceptTypes" />
+                        <mat-error *ngIf=" !avatarSourceUrl">
+                            Please select avatar image!
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div fxLayout="row wrap" fxLayoutAlign="start center" fxFlex="1 0 auto" *ngIf="avatarSourceUrl">
+                    <div class="px-12 mb-20" fxFlex="100">
+                        <img class="avatar-img" [src]="avatarSourceUrl">
+                    </div>
+                </div>
+
+                <div fxLayout="row wrap" fxLayoutAlign="start center" fxFlex="1 0 auto">
+                    <div class="px-12" fxFlex="100">
+                        <button type="submit" mat-raised-button color="primary"
+                            [disabled]="!editAdminForm.valid || !avatarSourceUrl ">Submit</button> &nbsp;&nbsp;
+                        <button mat-raised-button (click)="back()">Cancel</button>
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+    <!-- / CONTENT -->
+
+</div>

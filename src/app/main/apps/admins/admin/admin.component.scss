@@ -1,0 +1,10 @@
+.file-form-field {
+    input {
+        &[type=file] {
+            padding: 0;
+        }
+    }
+}
+.avatar-img {
+    width: 100px;
+}

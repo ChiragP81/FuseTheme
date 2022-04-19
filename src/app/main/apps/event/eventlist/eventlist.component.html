@@ -1,0 +1,94 @@
+<div class="page-layout simple fullwidth angular-material-elements">
+
+    <!-- HEADER -->
+    <div class="header accent p-24 h-100" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-xs="row"
+        fxLayoutAlign.gt-xs="space-between center">
+
+        <div fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-xs="column" fxLayoutAlign.gt-xs="center start">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <mat-icon class="secondary-text s-18">home</mat-icon>
+                <span style="cursor: pointer;" class="secondary-text ml-5" [routerLink]="['/dashboard']">Home</span>
+                <mat-icon class="secondary-text s-16">chevron_right</mat-icon>
+                <span class="secondary-text" [innerHTML]="pageTitle"></span>
+            </div>
+            <!-- <div class="h2 mt-16" [innerHTML]="pageTitle"></div> -->
+        </div>
+
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content p-24">
+
+            <div class="portlet-body">
+                    <form fxLayout="column" name="form">
+                        <div class="px-8" fxLayout="row wrap" fxLayoutAlign="start center" fxFlex="0 0 auto">
+                            <mat-form-field class="p-8" fxLayout="column" fxFlex="100" fxFlex.gt-xs="100" fxFlex.gt-md="100">
+                                <mat-label>{{ 'status.status' | translate }}</mat-label>
+                                <mat-select value="all" (selectionChange)="viewByFilter($event.value)">
+                                    <mat-option [value]="status.value" *ngFor="let status of statusArray">
+                                        {{ status.displayValue }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </form>
+                </div>
+
+        <kendo-grid [kendoGridBinding]="eventData" [pageSize]="state.take" [skip]="state.skip" [sort]="state.sort"
+            [filter]="state.filter" [sortable]="true" [pageable]="true" [filterable]="true">
+
+            <kendo-grid-column field="event_uid" title="Action" width="200" [filterable]="false" [sortable]="false">
+                <ng-template kendoGridCellTemplate let-dataInstitute>
+                    <button kendoGridEditCommand [primary]="true"
+                        (click)="onView(dataInstitute.event_uid)">View</button>
+                    &nbsp;&nbsp;
+                </ng-template>
+            </kendo-grid-column>
+
+            <kendo-grid-column field="event_title" title="Event Name" width="200">
+            </kendo-grid-column>
+
+            <kendo-grid-column field="created_at" title="Created Date" width="250" filter="date">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                    <div>{{ dataItem.created_at.seconds*1000 | date: dateFormate }}</div>
+                </ng-template>
+            </kendo-grid-column>
+
+            <kendo-grid-column field="event_type" title="Event Type" width="200">
+                <ng-template kendoGridCellTemplate let-dataStatus>
+                    <div *ngIf="dataStatus.event_type != undefined ">
+                        {{ getEventTypeName(dataStatus.event_type) }}
+                    </div>
+                </ng-template>
+            </kendo-grid-column>
+
+            <kendo-grid-column field="event_level" title="Event Level" width="200">
+                <ng-template kendoGridCellTemplate let-dataStatus>
+                    <div *ngIf="dataStatus.event_level != undefined ">
+                        {{ getEventLevelName(dataStatus.event_level) }}
+                    </div>
+                </ng-template>
+            </kendo-grid-column>
+
+            <kendo-grid-column field="institute_uid" title="Institute Name" width="200">
+                <ng-template kendoGridCellTemplate let-dataStatus>
+                    <div *ngIf="dataStatus.institute_uid != undefined ">
+                        {{ getEventInstitueId(dataStatus.institute_uid) }}
+                    </div>
+                </ng-template>
+            </kendo-grid-column>
+
+            <kendo-grid-column field="status" title="Status" width="200" [filterable]="false">
+                <ng-template kendoGridCellTemplate let-dataStatus>
+                    <div *ngIf="dataStatus.status != undefined ">
+                        {{ getStatusName(dataStatus.status) }}
+                    </div>
+                </ng-template>
+            </kendo-grid-column>
+
+        </kendo-grid>
+
+
+    </div>
+</div>

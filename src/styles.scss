@@ -1,0 +1,23 @@
+// Import Fuse core library
+@import "@fuse/scss/core";
+
+// Import app.theme.scss
+@import "app/app.theme";
+
+.file-form-field {
+    .mat-form-field-infix {
+        padding: 12px 0 16px 0;
+        border-top: 0.74375em solid transparent;
+
+        .mat-form-field-label {
+            transform: translateY(-1.59375em) scale(0.75);
+        }
+    }
+
+    &.mat-form-field-appearance-outline {
+        .mat-form-field-outline-gap {
+            border-top-color: transparent;
+        }
+    }
+
+}

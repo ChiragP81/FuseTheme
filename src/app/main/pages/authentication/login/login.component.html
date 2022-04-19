@@ -1,0 +1,58 @@
+<div id="login" fxLayout="column">
+
+    <div id="login-form-wrapper" fxLayout="column" fxLayoutAlign="center center">
+
+        <div id="login-form" [@animate]="{value:'*',params:{duration:'300ms',y:'100px'}}">
+
+            <div class="logo">
+                <img src="assets/images/logos/fuse.svg">
+            </div>
+
+            <div class="title">LOGIN TO YOUR ACCOUNT</div>
+
+            <form (ngSubmit)="onSubmit()" name="loginForm" [formGroup]="loginForm" novalidate>
+
+
+                <mat-form-field appearance='outline'>
+                    <mat-label>Select Country</mat-label>
+                    <input type="text" placeholder="Select Country" aria-label="Select Country" matInput
+                        formControlName="countrycode" [matAutocomplete]="countrySelect" >
+                    <mat-icon matSuffix class='secondary-text'>code</mat-icon>
+                    <mat-autocomplete #countrySelect="matAutocomplete" [displayWith]="countryDisplayFn" >
+                        <mat-option *ngFor="let countryOption of countryfilteredOptions | async"
+                            [value]="countryOption">
+                            {{countryOption.name}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+
+                <mat-form-field appearance='outline'>
+                    <mat-label>Mobile Number</mat-label>
+                    <input matInput formControlName='phone'>
+                    <mat-icon matSuffix class='secondary-text'>phone_iphone</mat-icon>
+                    <mat-error *ngIf="loginForm.get('phone').hasError('required')">
+                        Mobile Number is required
+                    </mat-error>
+                    <mat-error *ngIf="!loginForm.get('phone').hasError('required') &&
+                                loginForm.get('phone').hasError('phone')">
+                        Please enter a valid Mobile Number address
+                    </mat-error>
+                </mat-form-field>
+
+
+
+                <div id="recaptcha-container"></div>
+
+                <button mat-raised-button color="accent" class="submit-button" aria-label="LOG IN" *ngIf="displaybtn"
+                    [disabled]="loginForm.invalid">
+                    LOGIN
+                </button>
+
+            </form>
+
+
+        </div>
+
+    </div>
+
+</div>

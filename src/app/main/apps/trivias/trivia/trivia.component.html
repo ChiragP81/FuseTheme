@@ -1,0 +1,234 @@
+<div id="forms" class="page-layout simple fullwidth angular-material-elements">
+
+    <!-- HEADER -->
+    <div class="header accent p-16 p-sm-24 h-100" fxLayout="row" fxLayoutAlign="start center">
+        <mat-icon class="secondary-text s-18">home</mat-icon>
+        <span style="cursor: pointer;" class="secondary-text ml-5" [routerLink]="['/dashboard']">Home</span>
+        <mat-icon class="secondary-text s-16">chevron_right</mat-icon>
+        <span style="cursor: pointer;" class="secondary-text" [routerLink]="['/apps/trivias/trivialist']"
+            [innerHTML]="headerTitle"></span>
+        <mat-icon class="secondary-text s-16">chevron_right</mat-icon>
+        <span class="secondary-text" [innerHTML]="pageTitle"></span>
+
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content p-4 p-sm-24">
+        <div fxLayout="column" fxLayoutAlign="start" fxLayout.gt-md="row">
+            <div class="p-12 pb-0" fxLayout="column" fxFlex="100">
+                <mat-form-field fxFlex="100" fxFlex.gt-md="40" fxFlex.gt-xs="40">
+                    <mat-label>Select Trivia Type</mat-label>
+                    <mat-select #triviaMainType [value]="defaultTrivia" (selectionChange)="changeTriviaType()">
+                        <mat-option *ngFor="let trivia of triviaTypeArray" [value]="trivia.trivia_type">
+                            {{trivia.trivia_type_value}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+        <div fxLayout="column" fxLayoutAlign="start" fxLayout.gt-md="row">
+            <div fxLayout="column" fxLayoutAlign="start" fxFlex="0 0 100%">
+                <form *ngIf="triviaMainType.value == 0" (ngSubmit)="submitQuizTriviaForm()" [formGroup]="triviaQuizForm"
+                    fxLayout="column" fxLayoutAlign="start" fxFlex="0 0 auto">
+                    <div fxLayout="row wrap" fxLayoutAlign="start center" fxFlex="1 1 auto">
+                        <mat-form-field class="px-12" appearance="outline" fxFlex="100" fxFlex.gt-md="50"
+                            fxFlex.gt-xs="50">
+                            <mat-label>Trivia Name </mat-label>
+                            <input matInput formControlName="trivia_name" required />
+                            <mat-error *ngIf="triviaQuizForm.get('trivia_name').hasError('required')">
+                                Trivia Name is required
+                            </mat-error>
+                        </mat-form-field>
+                        <mat-form-field class="px-12" appearance="outline" fxFlex="100" fxFlex.gt-md="50"
+                            fxFlex.gt-xs="50">
+                            <mat-label>Status</mat-label>
+                            <mat-select formControlName="status" required>
+                                <mat-option *ngFor="let status of trivia_status" [value]="status.value">
+                                    {{status.displayValue}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="triviaQuizForm.get('status').hasError('required')">
+                                Status is required
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="px-12" fxLayout="row wrap" fxLayoutAlign="start center" fxFlex="1 1 auto">
+                        <div class="mat-card mat-elevation-z0 border" fxFlex="100">
+                            <div class="p-12" fxLayout="row" fxLayoutAlign="space-between center">
+                                <mat-label><b>Quiz Questions : </b></mat-label>
+                                <button type="button" class="pull-right" mat-raised-button (click)="addQuestion()"
+                                    color="primary">Add Question</button>
+                            </div>
+                            <mat-divider></mat-divider>
+                            <div class="p-12" fxLayout="row" fxLayoutAlign="space-between none">
+                                <div fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-xs="100">
+                                    <div class="quiz-questions"
+                                        *ngFor="let quizOpts of quizQuestions; let arrIndex = index;">
+                                        <div class="questions-list">
+                                            <span class="count">{{arrIndex+1}} </span>
+                                            <div class="field-box pl-12" fxFlex="100">
+                                                <input class="question-input" placeholder="Question"
+                                                    [value]="quizOpts.question" matInput required
+                                                    (keyup)="updateQuizQues($event,arrIndex)" />
+                                            </div>
+                                            <button type="button" *ngIf="arrIndex != 0" class="pull-right btn-accent"
+                                                mat-icon-button color="warn" (click)="deleteQuestion(arrIndex)"
+                                                matTooltip="Delete Question">
+                                                <mat-icon>delete</mat-icon>
+                                            </button>
+
+                                            <button type="button" class="pull-right" mat-icon-button
+                                                (click)="addSubOptions(arrIndex)" color="accent"
+                                                matTooltip="Add Option">
+                                                <mat-icon>add_circle_outline</mat-icon>
+                                            </button>
+
+                                        </div>
+                                        <div class="questions-list">
+                                            <mat-radio-group fxFlex="100" fxLayout="row wrap"
+                                                (change)="onRadioChange($event,arrIndex)">
+                                                <div class="option-list" fxFlex="100"
+                                                    *ngFor="let opt of quizOpts.options; let innerIndex = index;">
+                                                    <mat-radio-button class="opt-radio" [value]="innerIndex"
+                                                        [checked]="quizOpts.answer == innerIndex"></mat-radio-button>
+                                                    <div class="field-box pl-12" fxFlex="100">
+                                                        <input class="opt_input" placeholder="Question Option"
+                                                            [value]="opt.option" matInput required
+                                                            (keyup)="updateQuizQuesOpt($event.target.value,arrIndex,innerIndex)" />
+                                                    </div>
+                                                    <button type="button" *ngIf="innerIndex != 0" mat-icon-button
+                                                        (click)="deleteQuizOption(arrIndex,innerIndex)" color="warn">
+                                                        <mat-icon>delete</mat-icon>
+                                                    </button>
+                                                </div>
+                                            </mat-radio-group>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-20 px-12 pb-12" fxLayout="row wrap" fxLayoutAlign="start center" fxFlex="1 0 auto">
+                        <button type="submit" mat-raised-button color="primary">Submit</button>
+                        &nbsp;&nbsp;
+                        <button type="reset" mat-raised-button (click)="redirectToTrivia()">Cancel</button>
+                    </div>
+
+                </form>
+
+                <form *ngIf="triviaMainType.value == 1" (ngSubmit)="submitPollTriviaForm()" [formGroup]="triviaPollForm"
+                    fxLayout="column" fxLayoutAlign="start" fxFlex="0 0 auto">
+
+                    <div fxLayout="row wrap" fxLayoutAlign="start center" fxFlex="1 1 auto">
+                        <mat-form-field class="px-12" appearance="outline" fxFlex="100" fxFlex.gt-md="50"
+                            fxFlex.gt-xs="50">
+                            <mat-label>Poll Question </mat-label>
+                            <input matInput formControlName="questions" required />
+                            <mat-error *ngIf="triviaPollForm.get('questions').hasError('required')">
+                                Question field is required
+                            </mat-error>
+                        </mat-form-field>
+                        <mat-form-field class="px-12" appearance="outline" fxFlex="100" fxFlex.gt-md="50"
+                            fxFlex.gt-xs="50">
+                            <mat-label>Status</mat-label>
+                            <mat-select formControlName="status" required>
+                                <mat-option *ngFor="let status of trivia_status" [value]="status.value">
+                                    {{status.displayValue}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="triviaPollForm.get('status').hasError('required')">
+                                Status is required
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="px-12" fxLayout="row wrap" fxLayoutAlign="start center" fxFlex="1 1 auto">
+                        <div class="mat-card mat-elevation-z0 border" fxFlex="100">
+                            <div class="p-12" fxLayout="row" fxLayoutAlign="space-between center">
+                                <mat-label><b>Poll Options : </b></mat-label> &nbsp;
+                                <button type="button" class="pull-right" mat-raised-button (click)="addPollOption()"
+                                    color="primary">Add Option</button>
+                            </div>
+                            <mat-divider></mat-divider>
+                            <div class="p-12" fxLayout="row" fxLayoutAlign="space-between none">
+                                <div class="quiz-questions" fxFlex="100">
+                                    <div class="questions-list poll-option"
+                                        *ngFor="let options of pollOptions; let arrIndex = index;">
+                                        <div class="field-box" fxFlex="100">
+                                            <input placeholder="Question Option" [value]="options.option"
+                                                (keyup)="updateOptionValue($event.target.value,arrIndex)" matInput
+                                                required />
+                                        </div>
+                                        <button type="button" *ngIf="arrIndex != 0" class="delete-option"
+                                            mat-icon-button color="warn" (click)="deleteOption(arrIndex)">
+                                            <mat-icon>delete</mat-icon>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-20 px-12 pb-12" fxLayout="row wrap" fxLayoutAlign="start center" fxFlex="1 0 auto">
+                        <button type="submit" mat-raised-button color="primary">Submit</button>
+                        &nbsp;&nbsp;
+                        <button type="reset" mat-raised-button (click)="redirectToTrivia()">Cancel</button>
+                    </div>
+
+                </form>
+
+                <form *ngIf="triviaMainType.value == 2" (ngSubmit)="submitQuotesTriviaForm()"
+                    [formGroup]="triviaQuoteForm" fxLayout="column" fxLayoutAlign="start" fxFlex="0 0 auto">
+
+                    <div fxLayout="row wrap" fxLayoutAlign="start center" fxFlex="1 0 auto">
+
+                        <mat-form-field class="px-12" appearance="outline" fxFlex="100" fxFlex.gt-xs="100"
+                            fxFlex.gt-sm="100" fxFlex.gt-md="100">
+                            <mat-label>Quotes</mat-label>
+                            <textarea matInput formControlName="quotes" required></textarea>
+                            <mat-error *ngIf="triviaQuoteForm.get('quotes').hasError('required')">
+                                Quotes field is required
+                            </mat-error>
+                        </mat-form-field>
+                        <mat-form-field class="px-12" appearance="outline" fxFlex="100" fxFlex.gt-xs="50"
+                            fxFlex.gt-sm="50" fxFlex.gt-md="50">
+                            <mat-label>Quotes From </mat-label>
+                            <input matInput formControlName="quote_from" required />
+                            <mat-error *ngIf="triviaQuoteForm.get('quote_from').hasError('required')">
+                                Quotes From field is required
+                            </mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field class="px-12" appearance="outline" fxFlex="100" fxFlex.gt-xs="50"
+                            fxFlex.gt-sm="50" fxFlex.gt-md="50">
+                            <mat-label>Status</mat-label>
+                            <mat-select formControlName="status" required>
+                                <mat-option *ngFor="let status of trivia_status" [value]="status.value">
+                                    {{status.displayValue}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="triviaQuoteForm.get('status').hasError('required')">
+                                Status is required
+                            </mat-error>
+                        </mat-form-field>
+
+                    </div>
+
+                    <div class="px-12 pb-12" fxLayout="row wrap" fxLayoutAlign="start center" fxFlex="1 0 auto">
+                        <button type="submit" mat-raised-button color="primary">Submit</button>
+                        &nbsp;&nbsp;
+                        <button type='reset' mat-raised-button (click)="redirectToTrivia()">Cancel</button>
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- / CONTENT -->
+</div>

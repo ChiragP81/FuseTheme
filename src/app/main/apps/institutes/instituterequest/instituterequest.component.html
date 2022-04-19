@@ -1,0 +1,51 @@
+<div class="page-layout simple fullwidth angular-material-elements">
+
+    <!-- HEADER -->
+    <div class="header accent p-24 h-100" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-xs="row"
+        fxLayoutAlign.gt-xs="space-between center">
+
+        <div fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-xs="column" fxLayoutAlign.gt-xs="center start">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <mat-icon class="secondary-text s-18">home</mat-icon>
+                <span style="cursor: pointer;" class="secondary-text ml-5" [routerLink]="['/dashboard']">Home</span>
+                <mat-icon class="secondary-text s-16">chevron_right</mat-icon>
+                <span class="secondary-text" [innerHTML]="pageTitle"></span>
+            </div>
+            <!-- <div class="h2 mt-16" [innerHTML]="pageTitle"></div> -->
+        </div>
+
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content p-12">
+        <div fxLayout="column" fxLayoutAlign="start">
+            <div class="p-12" fxLayout="column" fxFlex="100">
+                <kendo-grid [kendoGridBinding]="instituteRequestData" [pageSize]="state.take" [skip]="state.skip"
+                    [sort]="state.sort" [filter]="state.filter" [sortable]="true" [pageable]="true" [filterable]="true"
+                    (dataStateChange)="dataStateChange($event)">
+
+                    <kendo-grid-column field="instituteName" title="Institute Name" width="200">
+                    </kendo-grid-column>
+
+                    <kendo-grid-column field="alumniName" title="Alumni Name" width="150">
+                    </kendo-grid-column>
+
+                    <kendo-grid-column field="cityOfInstitute" title="Institute City" width="150">
+                    </kendo-grid-column>
+
+                    <kendo-grid-column field="email" title="Email" width="150">
+                    </kendo-grid-column>
+
+                    <kendo-grid-column title="Action" width="100" [filterable]="false" [sortable]="false">
+                        <ng-template kendoGridCellTemplate let-data>
+                            <button kendoGridEditCommand [primary]="true"
+                                (click)="approveRequest(data)">Approve</button>
+                        </ng-template>
+                    </kendo-grid-column>
+                </kendo-grid>
+            </div>
+        </div>
+    </div>
+    <!-- / CONTENT -->
+</div>
